@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=100, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Document</title>
+  <style>
+    .button {
+      width: 140px;
+      height: 50px;
+      margin: 100px auto;
+      border-radius: 25px;
+      color: #fff;
+      font-weight: bold;
+      font-size: 18px;
+      box-sizing: border-box;
+      display: flex;
+      padding: 0 25px 0 45px;
+      align-items: center;
+      cursor: pointer;
+      background-image: radial-gradient(circle, #634dff 0, #634dff 99px, #27293c 99px, #27293c 297px, #634dff 297px);
+      background-size: 594px 594px;
+      background-position: -367px -367px;
+      animation: pause .3s linear normal forwards;
+      position: relative;
+    }
+
+    .button.down {
+      transform: translate(0, 2px);
+    }
+
+    .button .icon {
+      position: absolute;
+      left: 0;
+    }
+
+    .button .icon-wrapper {
+      width: 20px;
+      left: 25px;
+      position: absolute;
+      height: 20px;
+      background: transparent;
+    }
+
+    .pillow {
+      width: 6px;
+      position: absolute;
+      bottom: 0;
+      background: #fff;
+      left: 13px;
+    }
+
+    .pause-txt,
+    .play-txt {
+      margin-left: 10px;
+    }
+
+    .button.pause {
+      box-shadow: 6px 6px 20px -8px #634dff;
+    }
+
+    .button.pause .play-txt {
+      display: none;
+    }
+
+    .button.pause .pause-txt {
+      animation: fadeIn .3s linear normal forwards;
+    }
+
+    .button.pause .icon {
+      width: 0;
+      height: 0;
+      border-top: 10px solid transparent;
+      border-bottom: 10px solid transparent;
+      border-left: 15px solid #fff;
+    }
+
+    .button.play {
+      box-shadow: 6px 6px 20px -8px #27293c;
+    }
+
+    .button.play .pause-txt {
+      display: none;
+    }
+
+    .button.play .play-txt {
+      animation: fadeIn .3s linear normal forwards;
+    }
+
+    .button.play .icon {
+      width: 0;
+      height: 0;
+      border-top: 10px solid transparent;
+      border-bottom: 10px solid transparent;
+      border-left: 15px solid #fff;
+      animation: triangle .2s linear normal forwards;
+    }
+
+    .button.play .pillow {
+      display: block;
+      animation: growth .3s linear normal forwards;
+    }
+
+    .button.pause .pillow.reverse {
+      animation: growth .3s linear reverse forwards;
+    }
+
+    .button.pause .icon.reverse {
+      animation: triangle .3s linear reverse forwards;
+    }
+
+    .button.play .pillow.noanimation,
+    .button.play .icon.noanimation {
+      animation: none;
+    }
+
+    @keyframes play {
+      0% {
+        background-position: -227px -227px;
+      }
+
+      100% {
+        background-position: -367px -367px;
+
+      }
+    }
+
+    @keyframes pause {
+      0% {
+        background-position: -367px -367px;
+      }
+
+      100% {
+        background-position: -227px -227px;
+      }
+    }
+
+    @keyframes fadeOut {
+      from {
+        letter-spacing: normal;
+        color: white;
+        opacity: 1;
+        display: block;
+      }
+
+      to {
+        letter-spacing: 20px;
+        opacity: 0;
+        display: none;
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        letter-spacing: 30px;
+        color: white;
+        opacity: 0;
+        display: none;
+      }
+
+      to {
+        letter-spacing: normal;
+        color: white;
+        opacity: 1;
+        display: block;
+      }
+    }
+
+    @keyframes growth {
+      from {
+        top: 20px;
+      }
+
+      75% {
+        top: -5px;
+      }
+
+      80% {
+        top: 2px;
+      }
+
+      93% {
+        top: -6px;
+      }
+
+      94% {
+        top: 2px;
+      }
+
+      98% {
+        top: -4px;
+      }
+
+      to {
+        top: 0;
+      }
+    }
+
+    @keyframes triangle {
+      from {
+        width: 0;
+        height: 0;
+        border-top: 10px solid transparent;
+        border-bottom: 10px solid transparent;
+        border-left: 15px solid #fff;
+      }
+
+      20% {
+        height: 4px;
+        border-top: 8px solid transparent;
+        border-bottom: 8px solid transparent;
+        border-left: 13px solid #fff;
+      }
+
+      40% {
+        height: 8px;
+        border-top: 6px solid transparent;
+        border-bottom: 6px solid transparent;
+        border-left: 11px solid #fff;
+      }
+
+      60% {
+        height: 12px;
+        border-top: 4px solid transparent;
+        border-bottom: 4px solid transparent;
+        border-left: 9px solid #fff;
+      }
+
+      80% {
+        height: 16px;
+        border-top: 2px solid transparent;
+        border-bottom: 2px solid transparent;
+        border-left: 7px solid #fff;
+      }
+
+      to {
+        height: 20px;
+        border-top: 0px solid transparent;
+        border-bottom: 0px solid transparent;
+        border-left: 6px solid #fff;
+      }
+    }
+  </style>
+
+</head>
+
+<body>
+  <div class="button pause">
+    <div class="icon-wrapper">
+      <div class="icon"></div>
+      <div class="pillow"></div>
+    </div>
+    <div class="pause-txt">Play</div>
+    <div class="play-txt">Pause</div>
+  </div>
+  <div class="flex">
+    <div class="test">
+    </div>
+  </div>
+</body>
+
+<script>
+  const buttonEl = document.querySelector('.button')
+  const pauseTxt = document.querySelector('.pause-txt')
+  const playTxt = document.querySelector('.play-txt')
+  const pillowEl = document.querySelector('.pillow')
+  const iconEl = document.querySelector('.icon')
+
+  function reAnimation(el, originClass, isReverse) {
+    el.className = `${originClass} noanimation`
+    window.requestAnimationFrame(function (time) {
+      window.requestAnimationFrame(function (time) {
+        el.className = originClass + (isReverse ? ' reverse' : '')
+      });
+    });
+  }
+
+  buttonEl.addEventListener('mousedown', e => {
+    buttonEl.classList.toggle('down')
+  })
+  buttonEl.addEventListener('mouseup', e => {
+    buttonEl.classList.toggle('down')
+    if (buttonEl.classList.contains('pause')) {
+      buttonEl.classList.remove('pause')
+      buttonEl.classList.add('play')
+      buttonEl.style.animationName = 'play';
+      playTxt.style.animationName = 'fadeIn';
+      pauseTxt.style.animationName = 'fadeOut';
+      reAnimation(pillowEl, 'pillow', false)
+      reAnimation(iconEl, 'icon', false)
+    } else {
+      buttonEl.classList.remove('play')
+      buttonEl.classList.add('pause')
+      buttonEl.style.animationName = 'pause';
+      pauseTxt.style.animationName = 'fadeIn';
+      playTxt.style.animationName = 'fadeOut';
+      reAnimation(pillowEl, 'pillow', true)
+      reAnimation(iconEl, 'icon', true)
+    }
+  })
+</script>
+
+</html>
