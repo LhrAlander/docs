@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Birthday Input</title>
+  <style>
+    .birthday-wrapper {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 10px;
+      border: 1px solid #B7BAC9;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+    }
+    .birthday-wrapper.focus {
+      border-color: #016BFF;
+    }
+    .birthday-wrapper.error {
+      border-color: #ff5055;
+    }
+    .birthday-wrapper.error::after {
+      content: attr(data-error);
+      display: block;
+      width: 200px;
+      text-align: center;
+      color: #ff5055;
+      font-size: 12px;
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translate(-50%, 120%);
+    }
+    .birthday-wrapper .date-input {
+      border: none;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    .birthday-wrapper .date-input:focus {
+      border: none;
+      outline: none;
+    }
+
+    .birthday-wrapper .date-input::placeholder {
+      color: #B7BAC9;
+    }
+
+    .birthday-wrapper .icon,
+    .birthday-wrapper .date-input:not(.year) {
+      width: 25px;
+    }
+
+    .birthday-wrapper .date-input.year {
+      width: 40px;
+    }
+
+    .birthday-wrapper .sep {
+      margin: 0 5px;
+      color: #B7BAC9;
+      line-height: 14px;
+      font-size: 14px;
+    }
+
+    .birthday-wrapper .icon {
+      height: 25px;
+      margin-right: 5px;
+      background-position: center;
+      background-size: 25px;
+      background-repeat: no-repeat;
+    }
+
+    .birthday-wrapper .icon.aquarius {
+      background-image: url("./images/zodiac/aquarius.png");
+    }
+
+    .birthday-wrapper .icon.cake {
+      background-image: url("./images/cake.png");
+      background-position-y: -3px;
+    }
+
+    .birthday-wrapper .icon.aries {
+      background-image: url("./images/zodiac/aries.png");
+    }
+
+    .birthday-wrapper .icon.cancer {
+      background-image: url("./images/zodiac/cancer.png");
+    }
+
+    .birthday-wrapper .icon.capricorn {
+      background-image: url("./images/zodiac/capricorn.png");
+    }
+
+    .birthday-wrapper .icon.gemini {
+      background-image: url("./images/zodiac/gemini.png");
+    }
+
+    .birthday-wrapper .icon.leo {
+      background-image: url("./images/zodiac/leo.png");
+    }
+
+    .birthday-wrapper .icon.pisces {
+      background-image: url("./images/zodiac/pisces.png");
+    }
+
+    .birthday-wrapper .icon.sagittarius {
+      background-image: url("./images/zodiac/sagittarius.png");
+    }
+
+    .birthday-wrapper .icon.scorpio {
+      background-image: url("./images/zodiac/scorpio.png");
+    }
+
+    .birthday-wrapper .icon.taurus {
+      background-image: url("./images/zodiac/taurus.png");
+    }
+
+    .birthday-wrapper .icon.virgo {
+      background-image: url("./images/zodiac/virgo.png");
+    }
+
+    .birthday-wrapper .icon.nipple {
+      background-image: url("./images/nipple.png");
+    }
+  </style>
+</head>
+<body>
+<div class="birthday-wrapper">
+  <div class="icon cake"></div>
+  <input
+    type="text"
+    class="year date-input"
+    placeholder="YYYY"
+  >
+  <span class="sep">/</span>
+  <input
+    type="text"
+    class="month date-input"
+    placeholder="MM"
+  >
+  <span class="sep">/</span>
+  <input
+    type="text"
+    class="day date-input"
+    placeholder="DD"
+  >
+</div>
+<script>
+  const days = [31, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+  const zodiacs = ['aquarius', 'pisces', 'aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo', 'libra', 'scorpio', 'sagittarius', 'capricorn']
+  const seps = [20, 19, 21, 21, 21, 22, 22, 22, 23, 22, 21, 20]
+
+  const birthday = {
+    year: -1,
+    month: 0,
+    day: 0
+  }
+  const yearInput = document.querySelector('.year.date-input')
+  const monthInput = document.querySelector('.month.date-input')
+  const dayInput = document.querySelector('.day.date-input')
+  const wrapperEl = document.querySelector('.birthday-wrapper')
+  const iconEl = document.querySelector('.icon')
+
+  function isLeapYear(year) {
+    return !(year % (year % 100 ? 4 : 400))
+  }
+
+  function focusEvent() {
+    if (!wrapperEl.classList.contains('focus')) {
+      wrapperEl.classList.add('focus')
+    }
+  }
+
+  function blurEvent() {
+    if (wrapperEl.classList.contains('focus')) {
+      wrapperEl.classList.remove('focus')
+    }
+  }
+
+  function checkDate() {
+    const {year, month, day} = birthday
+    console.log(year, month, day)
+    let error = ''
+    let zodiac = 'cake'
+    if (
+      month > 0 &&
+      month < 13 &&
+      day > 0 &&
+      day < 32
+    ) {
+      if (day >= seps[month - 1]) {
+        zodiac = zodiacs[month - 1]
+      } else {
+        zodiac = zodiacs[month > 1 ? month - 2 : 11]
+      }
+    }
+    if (+new Date(`${year}/${month}/${day}`) > +new Date()) {
+      zodiac = 'nipple'
+      error = '从未有人生于未来'
+      console.log('dayu')
+    }
+    console.log(error)
+    if (error && !wrapperEl.classList.contains('error')) {
+      wrapperEl.setAttribute('data-error', error)
+      wrapperEl.classList.add('error')
+    }
+    if (!error && wrapperEl.classList.contains('error')) {
+      wrapperEl.setAttribute('data-error', '')
+      wrapperEl.classList.remove('error')
+    }
+    iconEl.className = `icon ${zodiac}`
+  }
+
+
+  function inputEvent(e) {
+    console.log(e)
+    let value = e.target.value.split('').filter(v => !Number.isNaN(+v)).join('')
+    const target = e.target
+    switch (target) {
+      case yearInput:
+        if (value === '') {
+          birthday.year = 0
+        } else {
+          if (value > 9999) {
+            value = +(value + '').slice(0, 4)
+          }
+          if (value < 1) {
+            value = 1
+          }
+          birthday.year = value
+        }
+        target.value = value
+        if (target.value.length === 4) {
+          target.blur()
+          monthInput.focus()
+        }
+        break
+      case monthInput:
+        if (value === '') {
+          birthday.month = 0
+        } else {
+          if (value > 12) {
+            value = 12
+          }
+          if (value < 1) {
+            value = 1
+          }
+          birthday.month = value
+        }
+        target.value = value
+        if (target.value.length === 2) {
+          target.blur()
+          dayInput.focus()
+        }
+        break
+      default:
+        let maxDay = 31
+        if (birthday.month === 2 && isLeapYear(birthday.year)) {
+          maxDay = 29
+        } else if (birthday.month > 0) {
+          maxDay = days[birthday.month]
+        }
+        if (value === '') {
+          birthday.day = 0
+        } else {
+          if (value > maxDay) {
+            value = maxDay
+          }
+          if (value < 1) {
+            value = 1
+          }
+          birthday.day = value
+        }
+        target.value = value
+        break
+    }
+    checkDate()
+  }
+
+  yearInput.addEventListener('focus', focusEvent)
+  monthInput.addEventListener('focus', focusEvent)
+  dayInput.addEventListener('focus', focusEvent)
+
+  yearInput.addEventListener('blur', blurEvent)
+  monthInput.addEventListener('blur', blurEvent)
+  dayInput.addEventListener('blur', blurEvent)
+
+  yearInput.addEventListener('input', inputEvent)
+  monthInput.addEventListener('input', inputEvent)
+  dayInput.addEventListener('input', inputEvent)
+
+</script>
+</body>
+</html>
