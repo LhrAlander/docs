@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>list transform to grid</title>
+
+  <style>
+    .container {
+      padding: 6px 12px 6px 8px;
+      margin: 0;
+      display: flex;
+      outline: none;
+      position: relative;
+      border: none;
+      border-radius: 9px;
+      background: #2B3044;
+
+    }
+
+    .container:hover {
+      background: #1E2235;
+    }
+
+    .container .label {
+      color: #F6F8FF;
+      margin-left: 4px;
+      position: relative;
+      line-height: 24px;
+      font-weight: 600;
+      font-size: 14px;
+      min-width: 28px;
+    }
+
+    .label .item {
+      opacity: 1;
+    }
+
+    .label .item:first-child {
+      animation: first-text-appear .4s ease forwards;
+    }
+
+    .container.active .label .item:first-child {
+      animation: first-text-disppear .4s ease forwards;
+    }
+
+    .label .item:last-child {
+      opacity: 0;
+      position: absolute;
+      left: 0;
+      top: 0;
+      transform: translateY(12px) translateZ(0);
+      animation: last-text-disappear .4s ease forwards;
+    }
+
+    .container.active .label .item:last-child {
+      animation: last-text-appear .4s ease forwards;
+    }
+
+    @keyframes first-text-disappear {
+      0% {
+        opacity: 1;
+        transform: translateY(0) translateZ(0);
+      }
+
+      100% {
+        opacity: 0;
+        transform: translateY(-12px) translateZ(0);
+      }
+    }
+
+    @keyframes first-text-appear {
+      0% {
+        opacity: 0;
+        transform: translateY(-12px) translateZ(0);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0) translateZ(0);
+      }
+    }
+    @keyframes last-text-disappear {
+      0% {
+        opacity: 1;
+        transform: translateY(0) translateZ(0);
+      }
+
+      100% {
+        opacity: 0;
+        transform: translateY(12px) translateZ(0);
+      }
+    }
+
+    @keyframes last-text-appear {
+      0% {
+        opacity: 0;
+        transform: translateY(12px) translateZ(0);
+      }
+
+      100% {
+        opacity: 0;
+        transform: translateY(0) translateZ(0);
+      }
+    }
+
+  </style>
+
+</head>
+<body>
+  <button class='container'>
+    <div class='animation'></div>
+    <div class='label'>
+      <div class='grid item'>Grid</div>
+      <div class='list item'>List</div>
+    </div>
+  </button>
+
+<script>
+  const btn = document.querySelector('button');
+  btn.onclick = () => {
+      btn.classList.toggle('active');
+  }
+
+</script>
+</body>
+</html>
